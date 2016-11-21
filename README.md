@@ -14,6 +14,12 @@ Open source encoding software based on FFMpeg
 
 ## Steps (respect the order)
 
+###### NVENC Headers
+	cd Video_Codec_SDK_7.0.1
+	sudo cp -v Samples/common/inc/*.h /usr/local/include
+	make
+	cd..
+
 ###### Yasm `sudo apt-get install yasm`
 
 ###### x264 `git clone http://git.videolan.org/git/x264.git`
@@ -46,7 +52,7 @@ Open source encoding software based on FFMpeg
 ###### libopus `sudo apt-get install libopus-dev`
 
 ###### libvpx `wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2`
-	```shell
+	```Shell
 	tar xjvf libvpx-1.5.0.tar.bz2
 	cd libvpx-1.5.0
 	./configure --disable-examples --disable-unit-tests
@@ -57,7 +63,7 @@ Open source encoding software based on FFMpeg
 	```
 
 ###### ffmpeg `git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg`
-	```shell
+	```Shell
 	mkdir -v ffmpeg_build
 	cd ffmpeg_build
 	../ffmpeg/configure --prefix="$PWD" --enable-nonfree --enable-nvenc --extra-cflags=-I../cudautils --extra-ldflags=-L../cudautils --enable-gpl --enable-libx264 --enable-libx265 --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libvpx
@@ -66,10 +72,10 @@ Open source encoding software based on FFMpeg
 	hash -r
 	```
 
-9. ###### Test install
-	1. `./ffmpeg -version`
-	2. `./ffmpeg -encoders | grep -i 'nvidia'`
-	3. `./ffmpeg -filters | grep nvresize`
+###### Test install
+	./ffmpeg -version
+	./ffmpeg -encoders | grep -i 'nvidia'
+	./ffmpeg -filters | grep nvresize
 
 ## Some CUDA / NVENC Testing
 ### CPU Based encoding
@@ -92,13 +98,15 @@ _** Laptop: GTX 965M, 970M, 980M or higher graphics cards **_
 ### GPU Utilization
 * `nvidia-smi`
 * `nvidia-smi dmon -i 0`
+
 ***
+
 ### CUDA Tools binaries
-1. `cuda-install-samples-8.0.sh <dir>`
-2. `cd NVIDIA_CUDA-8.0_Samples`
-3. `make`
-4. `cd bin`
-5. `./deviceQuery`
-6. `./bandwidthTest`
+	cuda-install-samples-8.0.sh <dir>
+	cd NVIDIA_CUDA-8.0_Samples
+	make
+	cd bin
+	./deviceQuery
+	./bandwidthTest
 
 Finished :)
