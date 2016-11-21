@@ -12,57 +12,61 @@ Open source encoding software based on FFMpeg
 * [nVidia Video Codec SDK](https://developer.nvidia.com/nvidia-video-codec-sdk)
 * [nVidia CUDA SDK](https://developer.nvidia.com/cuda-downloads)
 
-## Steps
+## Steps (respect the order)
 
-1. #### YASM `sudo apt-get install yasm`
+###### Yasm `sudo apt-get install yasm`
 
-2. #### x264 `git clone http://git.videolan.org/git/x264.git`
-	1. cd x264
-	2. ./configure --disable-cli --enable-static --enable-shared --enable-strip
-	3. make -j 10
-	4. sudo make install
-	5. sudo ldconfig
-	6. cd ..
+###### x264 `git clone http://git.videolan.org/git/x264.git`
+	cd x264
+	./configure --disable-cli --enable-static --enable-shared --enable-strip
+	make -j 10
+	sudo make install
+	sudo ldconfig
+	cd ..
 
-3. #### x265 `sudo apt-get install cmake mercurial`
-	1. hg clone http://hg.videolan.org/x265
-	2. cd /x265/build
-	3. cmake -G "Unix Makefiles"
-	4. make
-	5. sudo make install
-	6. sudo ldconfig
-	7. cd ..
+###### x265 `sudo apt-get install cmake mercurial`
+	hg clone http://hg.videolan.org/x265
+	cd /x265/build
+	cmake -G "Unix Makefiles"
+	make
+	sudo make install
+	sudo ldconfig
+	cd ..
 
-4. #### fdk_aac `git clone https://github.com/mstorsjo/fdk-aac.git`
-	1. autoreconf -fiv
-	2. ./configure
-	3. make
-	4. sudo make install
-	5. sudo ldconfig
-	6. cd ..
+###### fdk_aac `git clone https://github.com/mstorsjo/fdk-aac.git`
+	autoreconf -fiv
+	./configure
+	make
+	sudo make install
+	sudo ldconfig
+	cd ..
 
-5. #### libmp3_lame `sudo apt-get install libmp3lame-dev`
+###### libmp3_lame `sudo apt-get install libmp3lame-dev`
 
-6. #### libopus `sudo apt-get install libopus-dev`
+###### libopus `sudo apt-get install libopus-dev`
 
-7. #### libvpx `wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2`
-	1. tar xjvf libvpx-1.5.0.tar.bz2
-	2. cd libvpx-1.5.0
-	3. ./configure --disable-examples --disable-unit-tests
-	4. make
-	5. sudo make install
-	6. sudo ldconfig
-	7. cd ..
+###### libvpx `wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2`
+	```shell
+	tar xjvf libvpx-1.5.0.tar.bz2
+	cd libvpx-1.5.0
+	./configure --disable-examples --disable-unit-tests
+	make
+	sudo make install
+	sudo ldconfig
+	cd ..
+	```
 
-8. #### ffmpeg `git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg`
-	1. mkdir -v ffmpeg_build
-	2. cd ffmpeg_build
-	3. ../ffmpeg/configure --prefix="$PWD" --enable-nonfree --enable-nvenc --extra-cflags=-I../cudautils --extra-ldflags=-L../cudautils --enable-gpl --enable-libx264 --enable-libx265 --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libvpx
-	4. make -j 10
-	5. make install
-	6. hash -r
-	
-9. #### Test install
+###### ffmpeg `git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg`
+	```shell
+	mkdir -v ffmpeg_build
+	cd ffmpeg_build
+	../ffmpeg/configure --prefix="$PWD" --enable-nonfree --enable-nvenc --extra-cflags=-I../cudautils --extra-ldflags=-L../cudautils --enable-gpl --enable-libx264 --enable-libx265 --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libvpx
+	make -j 10
+	make install
+	hash -r
+	```
+
+9. ###### Test install
 	1. `./ffmpeg -version`
 	2. `./ffmpeg -encoders | grep -i 'nvidia'`
 	3. `./ffmpeg -filters | grep nvresize`
