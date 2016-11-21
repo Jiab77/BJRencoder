@@ -40,8 +40,11 @@ Open source encoding software based on FFMpeg
 	4. sudo make install
 	5. sudo ldconfig
 	6. cd ..
+
 5. #### libmp3_lame `sudo apt-get install libmp3lame-dev`
+
 6. #### libopus `sudo apt-get install libopus-dev`
+
 7. #### libvpx `wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2`
 	1. tar xjvf libvpx-1.5.0.tar.bz2
 	2. cd libvpx-1.5.0
@@ -50,6 +53,7 @@ Open source encoding software based on FFMpeg
 	5. sudo make install
 	6. sudo ldconfig
 	7. cd ..
+
 8. #### ffmpeg `git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg`
 	1. mkdir -v ffmpeg_build
 	2. cd ffmpeg_build
@@ -57,6 +61,7 @@ Open source encoding software based on FFMpeg
 	4. make -j 10
 	5. make install
 	6. hash -r
+	
 9. #### Test install
 	1. `./ffmpeg -version`
 	2. `./ffmpeg -encoders | grep -i 'nvidia'`
