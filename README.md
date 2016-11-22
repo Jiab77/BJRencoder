@@ -118,11 +118,19 @@ make install
 time ./bin/ffmpeg -y -i ~/Vidéos/VTS.VOB -t 60 -r 25 -profile:v high -c:v libx264 -fpre ~/Projects/bjrencoder-pro/Presets/libx264-custom.ffpreset -vf "scale=1920:trunc(ow/a/2)*2" -pix_fmt yuv420p -b:v 6250k -maxrate:v 12500k -bufsize 12500k -x264-params threads=0:level=51:aq-mode=1:intra-refresh=0:b-pyramid=0:8x8dct=1 -movflags +faststart -map 0:1 -map 0:2 -metadata:s:a:0 language=eng -c:a ac3 -b:a 384k -ar 48000 -ac 2 ~/Vidéos/VOB_x264_25fps_12500_60s_cpu.mp4
 ```
 
+	real	4m3.338s
+	user	12m12.096s
+	sys	0m7.448s
+
 ### GPU Based encoding
 
 ```shell
 time ./bin/ffmpeg -y -i ~/Vidéos/VTS.VOB -t 60 -r 25 -profile:v high -c:v h264_nvenc -fpre ~/Projects/bjrencoder-pro/Presets/libx264-custom.ffpreset -vf "scale=1920:trunc(ow/a/2)*2" -pix_fmt yuv420p -b:v 6250k -maxrate:v 12500k -bufsize 12500k -x264-params threads=0:level=51:aq-mode=1:intra-refresh=0:b-pyramid=0:8x8dct=1 -movflags +faststart -map 0:1 -map 0:2 -metadata:s:a:0 language=eng -c:a ac3 -b:a 384k -ar 48000 -ac 2 ~/Vidéos/VOB_x264_25fps_12500_60s_gpu.mp4
 ```
+
+	real	0m30.826s
+	user	0m20.964s
+	sys	0m1.084s
 
 ***
 
