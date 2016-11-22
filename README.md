@@ -140,6 +140,10 @@ time ./bin/ffmpeg -y -i ~/Vidéos/VTS.VOB -t 60 -r 25 -profile:v high -c:v h264_
 time ./bin/ffmpeg -y -i ~/Vidéos/BigBuckBunny/bbb_sunflower_native_60fps_normal.mp4 -t 30 -r 25 -c:v libx265 -vf "scale=1920:trunc(ow/a/2)*2" -pix_fmt yuv420p -b:v 6250k -maxrate:v 12500k -bufsize 12500k -x264-params threads=0:level=51:aq-mode=1:intra-refresh=0:b-pyramid=0 -movflags +faststart -map 0:0 -map 0:1 -metadata:s:a:0 language=eng -c:a ac3 -b:a 384k -ar 48000 -ac 2 ~/Vidéos/bbb_sunflower_native_60fps_normal_EN_x265_25fps_12500_cpu.mkv
 ```
 
+	real	7m31.627s
+	user	22m25.816s
+	sys	0m11.992s
+
 ### GPU Based encoding (HEVC)
 
 >_** Desktop: GPU HEVC works only for graphics cards Geforce GTX 950 series or higher graphics cards (GTX 950, GTX 960, GTX 970, GTX 980, GTX Titan X) **_
@@ -149,6 +153,8 @@ time ./bin/ffmpeg -y -i ~/Vidéos/BigBuckBunny/bbb_sunflower_native_60fps_normal
 ```shell
 time ./bin/ffmpeg -y -i ~/Vidéos/BigBuckBunny/bbb_sunflower_native_60fps_normal.mp4 -t 30 -r 25 -c:v hevc_nvenc -vf "scale=1920:trunc(ow/a/2)*2" -pix_fmt yuv420p -b:v 6250k -maxrate:v 12500k -bufsize 12500k -x264-params threads=0:level=51:aq-mode=1:intra-refresh=0:b-pyramid=0 -movflags +faststart -map 0:0 -map 0:1 -metadata:s:a:0 language=eng -c:a ac3 -b:a 384k -ar 48000 -ac 2 ~/Vidéos/bbb_sunflower_native_60fps_normal_EN_x265_25fps_12500_gpu.mkv
 ```
+
+>[hevc_nvenc @ 0x30b7700] No NVENC capable devices found
 
 ***
 
