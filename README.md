@@ -160,8 +160,9 @@ time ./bin/ffmpeg -y -i ~/Vidéos/BigBuckBunny/bbb_sunflower_native_60fps_normal
 
 ```shell
 cuda-install-samples-8.0.sh <dir>
-cd NVIDIA_CUDA-8.0_Samples
-cd bin
+cd nvidia/NVIDIA_CUDA-8.0_Samples
+make -j 10
+cd bin/x86_64/linux/release/
 ./deviceQuery
 ./bandwidthTest
 ```
