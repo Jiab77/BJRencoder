@@ -2,8 +2,10 @@
 
 Open source encoding software based on FFMpeg
 
-# Compilation FFMpeg / NVENC ~~+ NVRESIZE~~
-> nVidia `nvresize` patch is outdated and not more compatible to the last version of FFmpeg, so it's not included in this documentation.
+# Compilation FFMpeg / NVENC ~~+ NVRESIZE~~ + QSV + VAAPI + VDPAU + OpenCL
+> nVidia `nvresize` patch is outdated and not more compatible to the latest version of FFmpeg, so it's not included in this documentation.
+
+> *(even if I've passed a lot of time at trying to make it compile... without any success)*
 
 > Please don't rely on this page: https://developer.nvidia.com/ffmpeg, the implementation is a hack and was never been added to the main FFmpeg tree.
 
@@ -21,46 +23,70 @@ Open source encoding software based on FFMpeg
 ## Required softwares
 
 * Linux Mint 18 / Ubuntu 16.04
-* [nVidia Video Codec SDK](https://developer.nvidia.com/nvidia-video-codec-sdk)
-* [nVidia CUDA SDK](https://developer.nvidia.com/cuda-downloads)
+* ~~[nVidia Video Codec SDK](https://developer.nvidia.com/nvidia-video-codec-sdk)~~ No more needed, now already included in FFMpeg source code
+* ~~[nVidia CUDA SDK](https://developer.nvidia.com/cuda-downloads)~~ No more needed, now already included in FFMpeg source code
 
 ## Steps (respect the order)
 
 ###### FFmpeg dependencies
 
 ```shell
-sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev libsdl2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev libopenal-dev
+sudo apt-get install -y yasm autoconf automake build-essential libass-dev libfreetype6-dev libsdl2-dev libtool libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev
 ```
 
-###### NVENC Headers
+###### FFMpeg extra dependencies
+
+```shell
+sudo apt-get install -y ladspa-sdk ladspa-foo-plugins libbluray-dev libbluray-doc libbluray1 libbluray-bin
+```
+
+###### ~~NVENC Headers~~ No more needed, now already included in FFMpeg source code
 
 ```shell
 cd Video_Codec_SDK_7.0.1
 sudo cp -v Samples/common/inc/*.h /usr/local/include/
-make -j 10
+make -j $(nproc)
 cd..
 ```
 
-###### Yasm `sudo apt-get install yasm`
+###### QSV `git clone https://github.com/lu-zero/mfx_dispatch.git`
+
+> Require Intel graphics cards or minimum i915 chipset
+
+```shell
+cd mfx_dispatch
+autoreconf -fiv
+./configure
+make -j $(nproc)
+sudo make install
+sudo ldconfig
+cd ..
+```
+
+###### OpenCL `sudo apt-get install -y ocl-icd-opencl-dev opencl-headers`
+
+###### VAAPI `sudo apt-get install -y libva-dev vainfo`
+
+###### VDPAU `sudo apt-get install -y vdpau-driver-all mesa-vdpau-drivers vdpau-va-driver libvdpau-dev vdpauinfo`
 
 ###### x264 `git clone http://git.videolan.org/git/x264.git`
 
 ```shell
 cd x264
 ./configure --disable-cli --enable-static --enable-shared --enable-strip
-make -j 10
+make -j $(nproc)
 sudo make install
 sudo ldconfig
 cd ..
 ```
 
-###### x265 `sudo apt-get install cmake mercurial`
+###### x265 `sudo apt-get install -y cmake mercurial`
 
 ```shell
 hg clone http://hg.videolan.org/x265
 cd x265/build
-cmake -G "Unix Makefiles"
-make -j 10
+cmake ../source
+make -j $(nproc)
 sudo make install
 sudo ldconfig
 cd ..
@@ -71,15 +97,15 @@ cd ..
 ```shell
 autoreconf -fiv
 ./configure
-make -j 10
+make -j $(nproc)
 sudo make install
 sudo ldconfig
 cd ..
 ```
 
-###### libmp3_lame `sudo apt-get install libmp3lame-dev`
+###### libmp3_lame `sudo apt-get install -y libmp3lame-dev`
 
-###### libopus `sudo apt-get install libopus-dev`
+###### libopus `sudo apt-get install -y libopus-dev`
 
 ###### libvpx `wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2`
 
@@ -87,19 +113,25 @@ cd ..
 tar xjvf libvpx-1.5.0.tar.bz2
 cd libvpx-1.5.0
 ./configure --disable-examples --disable-unit-tests
-make -j 10
+make -j $(nproc)
 sudo make install
 sudo ldconfig
 cd ..
 ```
+
+###### Sox `sudo apt-get install -y sox libsox-dev libsox-fmt-all libsox2 libsoxr-dev libsoxr-lsr0`
+
+###### SSH / SSL `sudo apt-get install -y libssh-dev libssh-dbg libssh2-1-dev libssh2-1-dbg libssl-dev openssl`
+
+###### Xvid / Theora / Vorbis / Wavpack / OpenAL / RTMPDump `sudo apt-get install -y libtheora-dev libwavpack-dev libwavpack1 libxvidcore-dev libxvidcore4 libvorbis-dev libopenal-dev librtmp-dev rtmpdump`
 
 ###### ffmpeg `git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg`
 
 ```shell
 mkdir -v ffmpeg_build
 cd ffmpeg_build
-PKG_CONFIG_PATH="./lib/pkgconfig" ../ffmpeg/configure --prefix="./" --pkg-config-flags="--static" --extra-cflags=-I../nvidia/cudautils --extra-ldflags=-L../nvidia/cudautils --enable-nonfree --enable-gpl --enable-avresample --enable-avisynth --enable-openal --enable-opengl --enable-x11grab --enable-nvenc --enable-libx264 --enable-libx265 --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libvpx
-make -j 10
+../ffmpeg/configure --prefix="./" --disable-shared --extra-cflags=-I/usr/local/include --extra-cflags=-I/usr/local/cuda-8.0/targets/x86_64-linux/include --extra-cflags=-I../nvidia/cudautils --extra-ldflags=-L/usr/local/cuda-8.0/targets/x86_64-linux/lib --extra-ldflags=-L../nvidia/cudautils --enable-nonfree --enable-gpl --enable-version3 --enable-avresample --enable-avisynth --enable-openal --enable-opencl --enable-opengl --enable-x11grab --enable-libnpp --enable-libmfx --enable-nvenc --enable-cuda --enable-vaapi --enable-vdpau --enable-libx264 --enable-libx265 --enable-libxvid --enable-libass --enable-libwavpack --enable-libsoxr --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libvpx --enable-librtmp --enable-libssh --enable-openssl
+make -j $(nproc)
 make install
 ```
 
@@ -108,7 +140,9 @@ make install
 ```shell
 ./bin/ffmpeg -version
 ./bin/ffmpeg -encoders | grep -i 'nvidia'
-./bin/ffmpeg -filters | grep nvresize
+./bin/ffmpeg -encoders | grep -i 'vaapi'
+./bin/ffmpeg -encoders | grep -i 'vdpau'
+./bin/ffmpeg -encoders | grep -i 'qsv'
 ```
 
 ## Some CUDA / NVENC Testing
@@ -175,7 +209,7 @@ time ./bin/ffmpeg -y -i ~/Vidéos/BigBuckBunny/bbb_sunflower_native_60fps_normal
 ```shell
 cuda-install-samples-8.0.sh <dir>
 cd nvidia/NVIDIA_CUDA-8.0_Samples
-make -j 10
+make -j $(nproc)
 cd bin/x86_64/linux/release/
 ./deviceQuery
 ./bandwidthTest
