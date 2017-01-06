@@ -1,8 +1,8 @@
 @echo off
-:: BJRencoder - Encoding Script
+:: ffextract - Extraction Script
 :: Made by Jonathan Barda <jonathan.barda@gmail.com>
 :: Tested by Alexandre Panchout <alexandre.panchout@gmail.com>
-:: Last Modification: 07/01/2017 - 00:06
+:: Last Modification: 07/01/2017 - 00:47
 
 :: Shell settings
 setlocal EnableDelayedExpansion
