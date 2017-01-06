@@ -4,25 +4,7 @@ Open source encoding software based on FFMpeg
 
 ## Installation
 
-Use Chocolatey.
-
-> What ? No more details ?
->
-> *For sure, they'll come later lol*
-
-## Usage
-
-Actually, the best script to use in the repository is `BJRencoder-FPS-CRF-H265-GPU.bat`. All others are just kept for history.
-
-### Graphical
-
-Just drag and drop your file on the script
-
-### Command line
-
-```batch
-> BJRencoder-FPS-CRF-H265-GPU.bat [your-file-to-process.ext]
-```
+You just need `ffmpeg` to be installed on your system.
 
 ## Content extraction
 
