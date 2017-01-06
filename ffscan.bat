@@ -1,4 +1,9 @@
 @echo off
+:: ffscan - Content scan Script
+:: Made by Jonathan Barda <jonathan.barda@gmail.com>
+:: Tested by Alexandre Panchout <alexandre.panchout@gmail.com>
+:: Last Modification: 07/01/2017 - 00:51
+
 mode con:cols=160 lines=60
 setlocal EnableDelayedExpansion
 for %%a in (cls echo) do %%a.
