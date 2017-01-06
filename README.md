@@ -4,7 +4,7 @@ Open source encoding software based on FFMpeg
 
 ## Installation
 
-You just need `ffmpeg` to be installed on your system.
+You just need [ffmpeg](https://github.com/FFmpeg/FFmpeg) to be installed on your system.
 
 ## Content extraction
 
