@@ -1,39 +1,32 @@
-# BJRencoder
+# Bye bye Github...
 
-Open source encoding software based on FFMpeg
+Why do I'm leaving Github ?
 
-## Installation
+> Because I can't live with the idea that Microsoft now owns the biggest place where the open source code is / was hosted.
 
-You just need [ffmpeg](https://github.com/FFmpeg/FFmpeg) to be installed on your system.
+And ?
 
-## Content extraction
+> Also because Github didn't took the time to ask us, developpers, users, if we would be ok with this operation and my reply would be **NO!**
 
-Actually, I'm building a tiny script that extract file content track by track. It's still in alpha state but completely functionnal.
+# New home
 
-> You may found some parsing bug depending on your input file. If that's the case, please fill an issue and I'll try to do my best to fix it.
+But where could you find my code now ?
 
-The script is named `ffextract.bat` for the moment.
+> I just moved to Gitlab as many other devs did.
 
-### Graphical
+# Gists
 
-Just drag and drop your file on the script
+My gists will stay on Github for few reasons:
 
-### Command line
+ * Github has a better audience on Google
+ * Did not found the same feature with the same visibility on Gitlab
 
-```batch
-> ffextract.bat [your-file-to-process.ext]
-```
+Place of my gists: https://gist.github.com/jiab77
 
-## Read the file content
+# Projects
 
-I've created a small script (*it miss some comments...*) `ffscan.bat` to this purpose. I've used this code to create the extraction script.
+I might just keep the projects names on Github too for the same reason as above, but with only the present file and a link to the new project home.
 
-### Graphical
+# Repository
 
-Just drag and drop your file on the script
-
-### Command line
-
-```batch
-> ffscan.bat [your-file-to-process.ext]
-```
+The new place is here: https://gitlab.com/jiab77/BJRencoder
